@@ -1,0 +1,20 @@
+{
+  "log_info": {
+    "dir": "/tmp",
+    "name": "log.info",
+    "level": 1
+  },
+
+  "gc_info": {
+    "max_mem_m": 2048,
+    "check_interval_s": 20
+  },
+
+  "pid_info": {
+    "file": "/tmp/glue.pid"
+  },
+
+  "proc_info": {
+    "max_proc": -1
+  }
+}
