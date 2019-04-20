@@ -44,3 +44,7 @@ func Init(conf *sj.Json) error {
 
 	return nil
 }
+
+func Close() error {
+	return common.Close()
+}
