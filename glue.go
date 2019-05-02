@@ -38,7 +38,31 @@ func Init(conf *sj.Json) error {
 	if dsn == "" {
 		return fmt.Errorf("db conf dsn is empty")
 	}
-	if err := common.InitGorm(dsn); err != nil {
+
+	user := conf.Get("db_conf").Get("user").MustString("")
+	if user == "" {
+		return fmt.Errorf("db conf user is empty")
+	}
+
+	password := conf.Get("db_conf").Get("password").MustString("")
+	if password == "" {
+		return fmt.Errorf("db conf password is empty")
+	}
+
+	host := conf.Get("db_conf").Get("host").MustString("")
+	if host == "" {
+		return fmt.Errorf("db conf host is empty")
+	}
+
+	port := conf.Get("db_conf").Get("port").MustInt()
+
+	dbName := conf.Get("db_conf").Get("db_name").MustString("")
+	if dbName == "" {
+		return fmt.Errorf("db conf db_name is empty")
+	}
+
+	fDsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?%s", user, password, host, port, dbName, dsn)
+	if err := common.InitGorm(fDsn); err != nil {
 		return err
 	}
 

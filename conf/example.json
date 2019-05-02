@@ -19,7 +19,12 @@
   },
 
   "db_conf": {
-    "dsn": "user:password@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local&timeout=1s&readTimeout=3s&writeTimeout=3s&interpolateParams=true"
+    "user": "user",
+    "password": "passwd",
+    "host": "ip",
+    "port": 3306,
+    "db_name": "dbname",
+    "dsn": "charset=utf8mb4&parseTime=True&loc=Local&timeout=1s&readTimeout=3s&writeTimeout=3s&interpolateParams=true"
   },
 
   "useless_end": 1
