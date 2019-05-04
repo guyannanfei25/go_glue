@@ -19,12 +19,19 @@
   },
 
   "db_conf": {
+    "enable": true,
     "user": "user",
     "password": "passwd",
     "host": "ip",
     "port": 3306,
     "db_name": "dbname",
     "dsn": "charset=utf8mb4&parseTime=True&loc=Local&timeout=1s&readTimeout=3s&writeTimeout=3s&interpolateParams=true"
+  },
+
+  "redis_conf": {
+    "enable": true,
+    "addr": "127.0.0.1:6379",
+    "passwd": ""
   },
 
   "useless_end": 1

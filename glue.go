@@ -34,36 +34,54 @@ func Init(conf *sj.Json) error {
 
 	common.InitRunProcs(maxProc)
 
-	dsn := conf.Get("db_conf").Get("dsn").MustString("")
-	if dsn == "" {
-		return fmt.Errorf("db conf dsn is empty")
+	if conf.Get("db_conf").Get("enable").MustBool(false) {
+		dsn := conf.Get("db_conf").Get("dsn").MustString("")
+		if dsn == "" {
+			return fmt.Errorf("db conf dsn is empty")
+		}
+
+		user := conf.Get("db_conf").Get("user").MustString("")
+		if user == "" {
+			return fmt.Errorf("db conf user is empty")
+		}
+
+		password := conf.Get("db_conf").Get("password").MustString("")
+		if password == "" {
+			return fmt.Errorf("db conf password is empty")
+		}
+
+		host := conf.Get("db_conf").Get("host").MustString("")
+		if host == "" {
+			return fmt.Errorf("db conf host is empty")
+		}
+
+		port := conf.Get("db_conf").Get("port").MustInt()
+
+		dbName := conf.Get("db_conf").Get("db_name").MustString("")
+		if dbName == "" {
+			return fmt.Errorf("db conf db_name is empty")
+		}
+
+		fDsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?%s", user, password, host, port, dbName, dsn)
+		if err := common.InitGorm(fDsn); err != nil {
+			return err
+		}
 	}
 
-	user := conf.Get("db_conf").Get("user").MustString("")
-	if user == "" {
-		return fmt.Errorf("db conf user is empty")
-	}
+	if conf.Get("redis_conf").Get("enable").MustBool(false) {
+		addr := conf.Get("redis_conf").Get("addr").MustString("")
+		if addr == "" {
+			return fmt.Errorf("redis_conf addr is empty")
+		}
 
-	password := conf.Get("db_conf").Get("password").MustString("")
-	if password == "" {
-		return fmt.Errorf("db conf password is empty")
-	}
+		passwd := conf.Get("redis_conf").Get("passwd").MustString("")
+		if passwd == "" {
+			return fmt.Errorf("redis_conf passwd is empty")
+		}
 
-	host := conf.Get("db_conf").Get("host").MustString("")
-	if host == "" {
-		return fmt.Errorf("db conf host is empty")
-	}
-
-	port := conf.Get("db_conf").Get("port").MustInt()
-
-	dbName := conf.Get("db_conf").Get("db_name").MustString("")
-	if dbName == "" {
-		return fmt.Errorf("db conf db_name is empty")
-	}
-
-	fDsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?%s", user, password, host, port, dbName, dsn)
-	if err := common.InitGorm(fDsn); err != nil {
-		return err
+		if err := common.InitRedis(addr, passwd); err != nil {
+			return err
+		}
 	}
 
 	return nil
