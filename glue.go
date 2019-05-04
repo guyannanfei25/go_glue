@@ -75,9 +75,6 @@ func Init(conf *sj.Json) error {
 		}
 
 		passwd := conf.Get("redis_conf").Get("passwd").MustString("")
-		if passwd == "" {
-			return fmt.Errorf("redis_conf passwd is empty")
-		}
 
 		if err := common.InitRedis(addr, passwd); err != nil {
 			return err
